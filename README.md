@@ -33,8 +33,8 @@
 	'NOTICE' => 4,
 	'TRACE' => 8,
 	'DEBUG' => 16,
-	'INFO' => 16,
-	'ALL' => 32
+	'INFO' => 32,
+	'ALL' => 64
 
 可以在config.php里，配置最小记录级别，例如
 
