@@ -118,9 +118,30 @@
 	/* Location: ./wc_content/language/zh_cn/myerror_lang.php */
 
 ### 4 在third_party中使用自动加载    
-1）引入自动加载方法，使得可以在third_party内引入带命名空间的类库。  
-2）因为CI本身没有使用命名空间和类自动加载。  
-3）在third_party内引入带命名空间的类库之前，必须先过滤CI类、CI覆盖类。  
+因为CI本身没有使用命名空间和类自动加载。所以我在third_party内引入带命名空间的类库之前，增加了CI类、CI覆盖类的过滤。
+	
+	// 支持匹配规则：a_b 或  a/b 或 a\b
+	function third_party_autoload($class){
+	    
+	    if (function_exists('__autoload')) {
+	        //    Register any existing autoloader function with SPL, so we don't get any clashes
+	        spl_autoload_register('__autoload');
+	    }
+	    $file = preg_replace('{\\\\|_(?!.*\\\\)}', DIRECTORY_SEPARATOR, ltrim($class, '\\')).'.php';
+	
+	    // 过滤CI类、CI覆盖类
+	    if (strpos($file, 'CI') === 0 || strpos($file, 'MY') === 0) {
+	        return ;
+	    }
+	
+	}
+	spl_autoload_register('third_party_autoload');
+	
+	// 在此后require或include需要引入的第三方类库的autoload文件。
+	
+	// 例如，引入一个基于redis的延时队列
+	require 'redis_queue/autoload.php';
+		
 
 ### 5 常驻进程类 
 封装了cli模式启动的常驻进程类。该类具有如下几个特点  
@@ -152,6 +173,74 @@
 
 2)继承ApiProxy类后，子类一版需要覆盖签名方法、添加通用参数的方法。
 
+### 8 CRedis类 
+该类是基于phpredis扩展的一个Library。主要功能有：  
+1）将redis连接可配置化  
+
+	/*
+	| -------------------------------------------------------------------
+	| REDIS CONNECTIVITY SETTINGS
+	| -------------------------------------------------------------------
+	*/
+	
+	$config['redis']['default'] = array(
+		0 => array(
+			'host' => '127.0.0.1',
+			'port' => '6379',
+			'weight' => '1',
+			'lasting' => 1,
+			'connectTime' => 1,
+			'db' => 0,
+			'password' => '',
+		),
+		1 => array(
+			'host' => '127.0.0.1',
+			'port' => '6379',
+			'weight' => '1',
+			'lasting' => 1,
+			'connectTime' => 1,
+			'db' => 0,
+			'password' => '',
+		)
+	);
+
+	$config['redis']['host1'] = array(
+		0 => array(
+			'host' => '127.0.0.1',
+			'port' => '6379',
+			'weight' => '1',
+			'lasting' => 1,
+			'connectTime' => 1,
+			'db' => 0,
+			'password' => '',
+		),
+		1 => array(
+			'host' => '127.0.0.1',
+			'port' => '6379',
+			'weight' => '1',
+			'lasting' => 1,
+			'connectTime' => 1,
+			'db' => 0,
+			'password' => '',
+		)
+	);
+
+
+2）多个redis实例可切换  
+
+	$this->load->library('CRedis', '', 'CRedis');
+	$this->CRedis->set('hello', 'hello world1!');
+	$this->CRedis->switchHost('host1');
+	$this->CRedis->set('hello', 'hello world2!');
+	$this->stdreturn->ok($this->CRedis->get('hello'));
+
+3）支持主从实例自动切换  
+
+	默认取第0个实例，若失败，则获取第1个实例。
+
+
+### 9 容器类 
+我们知道CI是全局单例，但有时候，我们需要根据不同的参数初始化多个实例。例如我们会根据业务模块，将缓存数据分别存出来几个redis实例里。  
 
 
 
