@@ -19,7 +19,7 @@ spl_autoload_register('third_party_autoload');
 
 // 在此后require或include需要引入的第三方类库的autoload文件。
 
-// 引入一个基于redis的延时队列
+// 例如，引入一个基于redis的延时队列
 require 'redis_queue/autoload.php';
 
 

@@ -5,17 +5,48 @@
 | -------------------------------------------------------------------
 */
 
-//default
-$config['redis']['default']['host'] = '127.0.0.1';
-$config['redis']['default']['port'] = 6379;
-$config['redis']['default']['password'] = 'admin';
-$config['redis']['default']['database'] = 0;
+$config['redis']['default'] = array(
+    0 => array(
+        'host' => '127.0.0.1',
+        'port' => '6379',
+        'weight' => '1',
+        'lasting' => 1,
+        'connectTime' => 1,
+        'db' => 0,
+        'password' => '',
+    ),
+    1 => array(
+        'host' => '127.0.0.1',
+        'port' => '6379',
+        'weight' => '1',
+        'lasting' => 1,
+        'connectTime' => 1,
+        'db' => 0,
+        'password' => '',
+    )
+);
 
-//thirdpart_map_gamesdk_id
-$config['redis']['aof']['host'] = '127.0.0.1';
-$config['redis']['aof']['port'] = 6379;
-$config['redis']['aof']['password'] = 'admin';
-$config['redis']['aof']['database'] = 0;
+$config['redis']['host1'] = array(
+    0 => array(
+        'host' => '127.0.0.1',
+        'port' => '6379',
+        'weight' => '1',
+        'lasting' => 1,
+        'connectTime' => 1,
+        'db' => 0,
+        'password' => '',
+    ),
+    1 => array(
+        'host' => '127.0.0.1',
+        'port' => '6379',
+        'weight' => '1',
+        'lasting' => 1,
+        'connectTime' => 1,
+        'db' => 0,
+        'password' => '',
+    )
+);
+
 
 
 

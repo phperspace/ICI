@@ -4,6 +4,9 @@ class Welcome extends CI_Controller
 {
     public function index()
     {
-        $this->stdreturn->ok($this->params);
+        $this->load->library('CRedis', '', 'CRedis');
+        $this->CRedis->set('hello', 'hello world!' . time());
+        $this->CRedis->switchHost('host1');
+        $this->stdreturn->ok($this->CRedis->get('hello'));
     }
 }
