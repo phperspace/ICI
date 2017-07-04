@@ -310,13 +310,25 @@
 	}
 
 	define('VIEWPATH', $view_folder.DIRECTORY_SEPARATOR);
+
+/*
+ * --------------------------------------------------------------------
+ * date_default_timezone_set
+ * 此处设为中国时区
+ * --------------------------------------------------------------------
+ */
+	if (function_exists(date_default_timezone_set)) 
+	{
+	    date_default_timezone_set('PRC');
+	}
+	
     
 /*
  * --------------------------------------------------------------------
  * autoload
  * --------------------------------------------------------------------
  */
-require_once APPPATH . 'third_party/autoload.php';
+    require_once APPPATH . 'third_party/autoload.php';
 
 /*
  * --------------------------------------------------------------------
@@ -324,7 +336,7 @@ require_once APPPATH . 'third_party/autoload.php';
  * MY_Common.php先加载，框架的common.php后加载
  * --------------------------------------------------------------------
  */
-require_once APPPATH . 'core/MY_Common.php';
+    require_once APPPATH . 'core/MY_Common.php';
 
 
 /*
@@ -333,7 +345,7 @@ require_once APPPATH . 'core/MY_Common.php';
  * 使得可以在third_party内引入带命名空间的类库
  * --------------------------------------------------------------------
  */
-spl_autoload_register('third_party_autoload');
+    spl_autoload_register('third_party_autoload');
 
 /*
  * --------------------------------------------------------------------
@@ -342,4 +354,4 @@ spl_autoload_register('third_party_autoload');
  *
  * And away we go...
  */
-require_once BASEPATH.'core/CodeIgniter.php';
+    require_once BASEPATH.'core/CodeIgniter.php';
