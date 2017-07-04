@@ -9,4 +9,12 @@ class Welcome extends CI_Controller
         $this->CRedis->switchHost('host1');
         $this->stdreturn->ok($this->CRedis->get('hello'));
     }
+    
+
+    public function testIdCreater()
+    {
+        $this->load->library('IdCreater', '', 'IdCreater');
+        $id = $this->IdCreater->generate();
+        $this->stdreturn->ok($id);
+    }
 }
