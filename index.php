@@ -317,7 +317,7 @@
  * 此处设为中国时区
  * --------------------------------------------------------------------
  */
-	if (function_exists(date_default_timezone_set)) 
+	if (function_exists('date_default_timezone_set')) 
 	{
 	    date_default_timezone_set('PRC');
 	}
